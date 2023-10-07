@@ -1,50 +1,33 @@
-import React, {useState, useEffect} from 'react'
-import Axios from "axios";
-import logo from './logo.svg'
-import './App.css'
+import "./App.css";
+import LoginPage from "./pages/login/index";
+import NotFoundPage from "./pages/404";
+import "./components/FontawesomeIcons";
+
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
+
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  const fetchUsers = async () => {
-    const { data } = await  await Axios.get('/api/user')
-    const users = await data;
-    setUsers(users);
-    console.log(users);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
   return (
-    <div>
-      {users.map((user) => (
-        <p key={user._id}>{user.fullname}</p>
-      ))}
-    </div>
+
+  <Router>
+      <div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <ul className="navbar-nav mr-auto">
+          <li><Link to={'/'} className="nav-link"> Home </Link></li>
+          <li><Link to={'/contact'} className="nav-link">Contact</Link></li>
+          <li><Link to={'/about'} className="nav-link">About</Link></li>
+        </ul>
+        </nav>
+        <hr />
+        <Routes>
+          <Route exact path="/" element={<LoginPage/>}/>
+          <Route exact path="/404" element={<NotFoundPage/>}/>
+          <Route exact path="/recovery-password" element={<LoginPage/>}/>
+          <Route path="*" element={<NotFoundPage/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
-// function App () {
-//   const [msg, setMsg] = useState('')
-//   const handleClick = async () => {
-//     const data = await window.fetch('/api/user')
-//     const json = await data.json()
-//     const msg = json.msg
-//     setMsg(msg)
-//   }
-//   return (
-//     <div className='App'>
-//       <header className='App-header'>
-//         <img src={logo} className='App-logo' alt='logo' />
-//         <button onClick={handleClick}>
-//           Call api
-//         </button>
-//         <p>{msg}</p>
-//       </header>
-//     </div>
-//   )
-// }
-
-export default App
+export default App;
