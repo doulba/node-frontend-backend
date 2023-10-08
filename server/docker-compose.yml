@@ -8,7 +8,20 @@ services:
       - backend
     ports:
       - "27017:27017"
-
+  server:
+    image: gestiondara/server
+    build:
+      context: .
+    ports:
+      - 3500:3500
+    environment:
+      - PORT = 3500
+      - MONGO_URI = mongodb://mongo:27017/daara-backend
+    # command: npm run debug
+    networks:
+      - backend
+    links:
+      - "mongo:mongo"
 networks:
   backend:
     driver: bridge
