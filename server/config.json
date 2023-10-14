@@ -1,0 +1,7 @@
+{
+    "secret": "ben-secret-shit-goes-ngayAmfi",
+    "refreshTokenSecret": "waw-secret-refresh-token-shit-bene",
+    "port": 3500,
+    "tokenLife": 900,
+    "refreshTokenLife": 86400
+}

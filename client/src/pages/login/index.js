@@ -1,12 +1,78 @@
 import * as FaIcons from 'react-icons/fa';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
 import { Tilt } from "react-tilt";
-import usePasswordToggle from "../../hooks/usePasswordToggle";
+import swal from 'sweetalert';
+//import Validation from '../../hooks/validationLogin';
+
+
+async function loginUser(credentials) {
+    return fetch('http://localhost:3500/api/user/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json())
+}
 
 function LoginPage() {
 
-    const [PasswordInputType, ToggleIcon] = usePasswordToggle();
+    const [email, setemail] = useState();
+    const [password, setPassword] = useState();
+
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({})
+
+    // const handleInput = (event) => {
+    //     setValues(prev => ({ ...prev, [event.target.nom]: [event.target.value] }))
+    // }
+
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        const response = await loginUser({
+            email,
+            password
+        });
+        console.log(email, password);
+        if ('accessToken' in response) {
+            swal("Success", response.message, "success", {
+                buttons: false,
+                timer: 2000,
+            })
+                .then((value) => {
+                    localStorage.setItem('accessToken', response['accessToken']);
+                    localStorage.setItem('user', JSON.stringify(response['user']));
+                    window.location.href = "/profile";
+                });
+        } else {
+            swal("Failed", response.message, "error");
+        }
+
+
+
+
+        //setErrors(Validation(values));
+
+        // if(errors.email === "&& errors.password === ") {
+        //     axios.post('http://localhost:3500/user/login', values)
+
+        //     .then(res => {
+        //     if (res.data === "success"){
+        //        navigate('/home');
+        //     }else{ 
+        //         alert ("impossible d enregistrer");
+        //     }
+
+        //     })
+        //     .catch(err => console.log(err));
+        //   }
+    }
 
     return (
         <main>
@@ -23,16 +89,19 @@ function LoginPage() {
                             </div>
                         </Tilt>
 
-                        <form className="login100-form validate-form" >
+                        <form onSubmit={handleSubmit} className="login100-form validate-form" >
                             <span className="login100-form-title" >
                                 Connexion
                             </span>
                             <div className="wrap-input100 validate-input"
-                                data validate="Valid matricule is required: exabc.123" >
+                                data validate="Valid login is required: exabc.123" >
                                 <input className="input100"
                                     type="text"
-                                    name="matricule"
-                                    placeholder="Matricule" />
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email" 
+                                    onChange={e => setemail(e.target.value)}
+                                    />
                                 <span className="focus-input100"></span>
                                 <span className="symbol-input100">
                                     <FaIcons.FaUser />
@@ -42,10 +111,12 @@ function LoginPage() {
                             <div className="wrap-input100 validate-input"
                                 data validate="Password is required" >
                                 <input className="input100"
-                                    type={PasswordInputType}
+                                    type="password"
                                     name="password"
                                     placeholder="Password"
-                                    id="inputPassword" />
+                                    id="password" 
+                                    onChange={e => setPassword(e.target.value)}
+                                    />
                                 < span className="focus-input100">
                                 </span>
                                 <span className="symbol-input100">
@@ -53,7 +124,7 @@ function LoginPage() {
                                 </span >
                                 <span className="symbol-input200">
                                     <i className="toggle-password" >
-                                        {ToggleIcon}
+
                                     </i>
                                 </span>
                             </div>
@@ -73,7 +144,7 @@ function LoginPage() {
                             </div>
                             <div className="text-center p-t-12">
                                 <span className="txt1">
-                                    Vous avez oublié 
+                                    Vous avez oublié
                                 </span>
 
                                 <a className="txt2"
