@@ -23,6 +23,7 @@ exports.apiCheckuser = (req, res, next) => {
               const response = {
                   fullname: user.fullname,
                   email: user.email,
+                  message: "success",
                   token,
                   refreshToken,
                   expiration: '1m'

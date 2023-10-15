@@ -40,13 +40,13 @@ function LoginPage() {
             password
         });
         console.log(email, password);
-        if ('accessToken' in response) {
+        if ('token' in response) {
             swal("Success", response.message, "success", {
                 buttons: false,
                 timer: 2000,
             })
                 .then((value) => {
-                    localStorage.setItem('accessToken', response['accessToken']);
+                    localStorage.setItem('token', response['token']);
                     localStorage.setItem('user', JSON.stringify(response['user']));
                     window.location.href = "/profile";
                 });
