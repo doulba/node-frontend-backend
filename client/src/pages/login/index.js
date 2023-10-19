@@ -1,6 +1,6 @@
 import * as FaIcons from 'react-icons/fa';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+//import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../index.css';
@@ -25,8 +25,8 @@ function LoginPage() {
     const [email, setemail] = useState();
     const [password, setPassword] = useState();
 
-    const navigate = useNavigate();
-    const [errors, setErrors] = useState({})
+    // const navigate = useNavigate();
+    // const [errors, setErrors] = useState({})
 
     // const handleInput = (event) => {
     //     setValues(prev => ({ ...prev, [event.target.nom]: [event.target.value] }))
@@ -47,7 +47,8 @@ function LoginPage() {
             })
                 .then((value) => {
                     localStorage.setItem('token', response['token']);
-                    localStorage.setItem('user', JSON.stringify(response['user']));
+                    localStorage.setItem('user', JSON.stringify(response['fullname']));
+                    localStorage.setItem('role', JSON.stringify(response['role']));
                     window.location.href = "/profile";
                 });
         } else {

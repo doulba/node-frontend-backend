@@ -10,12 +10,12 @@ const { protect } = require("../middlewares/adminmiddleware");
  
 
 // user routes
-//router.get("/api/user", userCtrl.apiGetAllusers);
+router.get("/api/user", userCtrl.apiGetAllusers);
 router.post("/api/user/login", userCtrl.apiCheckuser);
-// router.post("/api/user/register",userCtrl.apiCreateuser);
+router.post("/api/user/register", userCtrl.apiCreateuser);
 // router.get("/api/user/:id", userCtrl.apiGetuserById);
-// router.put("/api/user/:id", userCtrl.apiUpdateuser);
-// router.delete("/api/user/:id", userCtrl.apiDeleteuser); 
+router.put("/api/user/:id", userCtrl.apiUpdateuser);
+router.delete("/api/user/:id", userCtrl.apiDeleteuser); 
 
 // admin routes
 router.get("/api/admin",adminCtrl.apiGetAlladmins);
