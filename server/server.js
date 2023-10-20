@@ -1,16 +1,22 @@
-require("./mongoDB/config");
+//require("./mongoDB/config");
+const mongoose = require('mongoose');
 require('dotenv').config()
 
 const express = require("express");
-const AppError = require("./helpers/appError");
 const errorHandler = require("./helpers/errorHandler");
 const headers = require("./helpers/headers");
 const cors = require("cors"); 
 const router = require("./routes");
 const bodyParser =  require("body-parser");
 const app = express();  
-const PORT = process.env.PORT || 3600
+const PORT = process.env.PORT || 3500 
 
+
+mongoose.connect('mongodb+srv://gestionDaaraIT:t662vpK09ryAKsfk@cluster1.4vpclvm.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true }) 
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,21 +25,21 @@ app.use((req, res, next) => {
     next();
   });
   
-//body-parser config;  
-//register the enpoints  
+ 
 app.use(cors())
 app.use(express.json());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded()); 
 app.use(bodyParser.urlencoded({extended: false }));  
 app.use(router) 
  
 app.use(headers);
-// using errors handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server is running : ${PORT}`)
+})
+
+app.get('/', (req, res) => {
+  res.json('Hello, gestionDaara IT user!')  
 })
 
 module.exports = app;
