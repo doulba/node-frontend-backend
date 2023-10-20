@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
 .create-form label{
-  color: whitesmoke !important;
+  color: rgba(13, 8, 62, 0.901) !important;
   font-family: 'Montserrat', sans-serif;
   font-size: 12px !important;
 }
