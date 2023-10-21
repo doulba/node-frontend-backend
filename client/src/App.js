@@ -1,44 +1,56 @@
-import "./App.css";
-import LoginPage from "./pages/login/index";
-import Profile from "./pages/profile";
-import NotFoundPage from "./pages/404";
-import AdminPage from "./pages/admin/index"
-
-//import "./components/FontawesomeIcons";
-
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
-
+import './App.css';
+import React from 'react';
+import Home from './pages/home';
+import Create from './components/create';
+import Read from './components/read';
+import Update from './components/update';
+import NotFoundPage from './pages/404';
+import './components/FontawesomeIcons';
+import LoginPage from './pages/login';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 
 function App() {
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const accesToken = localStorage.getItem('token');
   if(!accesToken) {
     return <LoginPage />
   } 
 
-  
-  return (
+  const logOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/home";
+    }
 
-  <Router>
+  return (
+    
+    <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <ul className="navbar-nav mr-auto">
           <li><Link to={'/'} className="nav-link"> Home </Link></li>
-          <li><Link to={'/admin'} className="nav-link"> Admin </Link></li>
-          <li><Link to={'/contact'} className="nav-link">Contact</Link></li>
-          <li><Link to={'/about'} className="nav-link">About</Link></li>
-          <li><Link to={'/Profile'} className="nav-link">Profile</Link></li>
+          <li><Link to={'/create'} className="nav-link"> Admin </Link></li>
+          <li><Link to={'/read'} className="nav-link"> Read </Link></li>
+          <li><Link to={'/update'} className="nav-link"> Update </Link></li>
+          <li onClick={logOut} className="nav-link"> Logout </li>
         </ul>
         </nav>
         <hr />
         <Routes>
-          <Route exact path="/LoginPage" element={<LoginPage/>}/>
-          <Route exact path="/admin" element={<AdminPage/>}/>
-          <Route exact path="/Profile" element={<Profile/>}/>
-          <Route exact path="/404" element={<NotFoundPage/>}/>
-          <Route exact path="/recovery-password" element={<LoginPage/>}/>
+        <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/Create" element={<Create/>}/>
+          <Route exact path="/Read" element={<Read/>} />
+          <Route exact path="/Update" element={<Update/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
-      </div>
+        </div>
     </Router>
   );
 }
