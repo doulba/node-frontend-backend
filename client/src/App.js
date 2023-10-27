@@ -39,7 +39,8 @@ function App() {
           <li><Link to={'/create'} className="nav-link"> Admin </Link></li>
           <li><Link to={'/read'} className="nav-link"> Read </Link></li>
           <li><Link to={'/update'} className="nav-link"> Update </Link></li>
-          <li onClick={logOut} className="nav-link"> Logout </li>
+          <li><Link onclick={logOut} className="nav-link"> Contact </Link></li>
+          <li><Link onClick={logOut} className="nav-link"> Logout</Link> </li>
         </ul>
         </nav>
         <hr />
