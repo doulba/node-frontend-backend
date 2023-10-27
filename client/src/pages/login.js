@@ -8,6 +8,7 @@ import logo from '../logo.jpeg'
 import usePasswordToggle from "../hooks/usePasswordToggle"
 
 
+
 async function loginUser(credentials) {
     return fetch('http://localhost:3500/api/user/login', {
         method: 'POST',
@@ -40,7 +41,7 @@ function LoginPage() {
                     localStorage.setItem('token', response['token']);
                     localStorage.setItem('user', JSON.stringify(response['fullname']));
                     localStorage.setItem('role', JSON.stringify(response['role']));
-                    window.location.href = "/read";
+                    window.location.href = "/";
                 });
         } else {
             swal("Failed", response.message, "error");
@@ -65,7 +66,7 @@ function LoginPage() {
 
                         <form onSubmit={handleSubmit} className="login100-form validate-form" >
                             <span className="login100-form-title" >
-                                Connexion
+                               <h1> Se Connecter </h1>
                             </span>
                             <div className="wrap-input100 validate-input"
                                  validate="Valid login is required: exabc.123" >
@@ -113,19 +114,21 @@ function LoginPage() {
                                     <i className="fa-signIn" >
                                         <FaIcons.FaSignInAlt />
                                     </i>
-                                    Connexion
+                                    Validation
                                 </button>
                             </div>
                             <div className="text-center p-t-12">
                                 <span className="txt1">
-                                    Vous avez oublié
+                                    Oups Vous avez oublié
                                 </span>
 
                                 <a className="txt2"
                                     href="" >
                                     Votre Mot de passe ?
                                 </a>
+                                
                             </div>
+                             <p> Vous Acceptez Nos Conditions et Politiques de Securité </p>
                         </form>
                     </div>
                 </div>
