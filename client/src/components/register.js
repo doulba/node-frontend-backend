@@ -25,7 +25,7 @@ export default function Register() {
                 icon: 'success',
                 title: 'Compte utilisateur créé',
                 showConfirmButton: false,
-                timer: 4000,
+                timer: 2000,
               })
               window.location.href = "/login";
         })
