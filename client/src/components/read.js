@@ -8,7 +8,7 @@ export default function Read() {
     
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:3500/api/user`)
+        axios.get(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user`)
             .then((response) => {
                 setAPIData(response.data);
             }, [])
@@ -23,13 +23,13 @@ export default function Read() {
         localStorage.setItem('TermAgreeValue', termAgree)
     }
     const getData = () => {
-        axios.get(`http://localhost:3500/api/user`)
+        axios.get(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user`)
             .then((getData) => {
                 setAPIData(getData.data);
             })
     }
     const onDelete = (id) => {
-        axios.delete(`http://localhost:3500/api/user/${id}`)
+        axios.delete(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/${id}`)
             .then(() => {
                 getData();
             })

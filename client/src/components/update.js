@@ -14,7 +14,7 @@ export default function Update() {
     const [id, setID] = useState(null);
 
     const updateAPIData = () => {
-        axios.put(`http://localhost:3500/api/user/${id}`, {
+        axios.put(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/${id}`, {
             fullname,
             email,
             role,

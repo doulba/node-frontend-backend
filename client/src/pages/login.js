@@ -4,12 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../index.css';
 import { Tilt } from "react-tilt";
 import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 import logo from '../logo.jpeg'
 import usePasswordToggle from "../hooks/usePasswordToggle"
 
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:3500/api/user/login', {
+    return fetch('https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -30,7 +31,6 @@ function LoginPage() {
             email,
             password
         });
-        console.log(email, password);
         if ('token' in response) {
             swal("Success", response.message, "success", {
                 buttons: false,
@@ -40,10 +40,18 @@ function LoginPage() {
                     localStorage.setItem('token', response['token']);
                     localStorage.setItem('user', JSON.stringify(response['fullname']));
                     localStorage.setItem('role', JSON.stringify(response['role']));
+                    localStorage.removeItem("loginFailed");
                     window.location.href = "/read";
+
                 });
         } else {
-            swal("Failed", response.message, "error");
+            localStorage.setItem('loginFailed', response['error']);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Utilisateur non trouvé!',
+                footer: '<a href="/register">créer un compte?</a>'
+              })
         }
     }
     const [PasswordInputType, ToggleIcon] = usePasswordToggle();
@@ -116,14 +124,10 @@ function LoginPage() {
                                     Connexion
                                 </button>
                             </div>
-                            <div className="text-center p-t-12">
-                                <span className="txt1">
-                                    Vous avez oublié
-                                </span>
-
+                            <div className="text-center p-t-12">    
                                 <a className="txt2"
-                                    href="" >
-                                    Votre Mot de passe ?
+                                    href="/register" >
+                                    Créer un compte ?
                                 </a>
                             </div>
                         </form>
