@@ -9,6 +9,7 @@ import logo from '../logo.jpeg'
 import usePasswordToggle from "../hooks/usePasswordToggle"
 
 
+
 async function loginUser(credentials) {
     return fetch('https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/login', {
         method: 'POST',
@@ -42,7 +43,6 @@ function LoginPage() {
                     localStorage.setItem('role', JSON.stringify(response['role']));
                     localStorage.removeItem("loginFailed");
                     window.location.href = "/read";
-
                 });
         } else {
             localStorage.setItem('loginFailed', response['error']);
@@ -73,7 +73,7 @@ function LoginPage() {
 
                         <form onSubmit={handleSubmit} className="login100-form validate-form" >
                             <span className="login100-form-title" >
-                                Connexion
+                               <h1> Se Connecter </h1>
                             </span>
                             <div className="wrap-input100 validate-input"
                                  validate="Valid login is required: exabc.123" >
@@ -121,7 +121,7 @@ function LoginPage() {
                                     <i className="fa-signIn" >
                                         <FaIcons.FaSignInAlt />
                                     </i>
-                                    Connexion
+                                    Validation
                                 </button>
                             </div>
                             <div className="text-center p-t-12">    
@@ -129,7 +129,9 @@ function LoginPage() {
                                     href="/register" >
                                     Créer un compte ?
                                 </a>
+                                
                             </div>
+                             <p> Vous Acceptez Nos Conditions et Politiques de Securité </p>
                         </form>
                     </div>
                 </div>
