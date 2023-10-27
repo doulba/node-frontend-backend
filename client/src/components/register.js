@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { Button, Checkbox, Form } from 'semantic-ui-react';
 import axios from 'axios';
 import { Tilt } from "react-tilt";
-import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
-export default function Create() {
 
-    const navigate = useNavigate();
+export default function Register() {
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,11 +20,17 @@ export default function Create() {
             password,
             termAgree
         }).then(() => {
-            navigate('/read')
+            localStorage.removeItem("loginFailed");
+            Swal.fire({
+                icon: 'success',
+                title: 'Compte utilisateur créé',
+                showConfirmButton: false,
+                timer: 2000,
+              })
+              window.location.href = "/login";
         })
     }
     return (
-
         <main>
             <div className="limiter" >
                 <div className="container-login100" >
@@ -51,7 +56,6 @@ export default function Create() {
                                 <Form.Field>
                                     <label>Role</label>
                                     <select onChange={(e) => setRole(e.target.value)}>
-                                        <option value="Admin">Admin</option>
                                         <option value="Teacher">Teacher</option>
                                         <option defaultValue="Student">Student</option>
                                     </select>
