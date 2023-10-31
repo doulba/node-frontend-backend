@@ -3,15 +3,34 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Tilt } from "react-tilt";
 import { Table, Button } from 'semantic-ui-react'
+import { environment } from '../environments/environment';
+import Swal from 'sweetalert2'
+
+let baseUrl = `${environment.apiUrl}/api/user`;
+
 
 export default function Read() {
-    
+
+    const accesToken = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${accesToken}`,
+        },
+    };
+
     const [APIData, setAPIData] = useState([]);
     useEffect(() => {
-        axios.get(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user`)
+        axios.get(`${baseUrl}`, config)
             .then((response) => {
                 setAPIData(response.data);
             }, [])
+            .catch(() =>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Erreur imprévue, Api non disponible!'
+                }))
     })
 
     const setData = (data) => {
@@ -20,16 +39,30 @@ export default function Read() {
         localStorage.setItem('fullname', fullname);
         localStorage.setItem('E-mail', email);
         localStorage.setItem('Role', role);
-        localStorage.setItem('TermAgreeValue', termAgree)
+        localStorage.setItem('TermAgreeValue', termAgree);
     }
+
     const getData = () => {
-        axios.get(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user`)
+        axios.get(`${baseUrl}`, config)
             .then((getData) => {
                 setAPIData(getData.data);
             })
+            .catch(() =>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Erreur imprévue, Api non disponible!'
+                }))
     }
     const onDelete = (id) => {
-        axios.delete(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/${id}`)
+        axios.delete(`${baseUrl}/${id}`)
+            .then(() => {
+                getData();
+            })
+    }
+
+    const onFilterProfil = (id) => {
+        axios.get(`${baseUrl}/${id}`)
             .then(() => {
                 getData();
             })
@@ -45,12 +78,7 @@ export default function Read() {
                             } >
                             <h2>Gestion Daara IT</h2>
                         </Tilt>
-                        <select>
-                            <option value="Admin">Admin</option>
-                            <option value="Teacher">Teacher</option>
-                            <option defaultValue="Student">Student</option>
-                        </select>
-                    </div>  
+                    </div>
                     <Table singleLine>
                         <Table.Header>
                             <Table.Row>
