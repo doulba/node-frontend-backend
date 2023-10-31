@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3500
 
 
-mongoose.connect('mongodb+srv://gestionDaaraIT:t662vpK09ryAKsfk@cluster1.4vpclvm.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://user:pwd@cluster1.4vpclvm.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true }) 
   .then(() => console.log('Connexion à MongoDB réussie !'))
