@@ -3,8 +3,20 @@ import { Button, Checkbox, Form } from 'semantic-ui-react';
 import axios from 'axios';
 import { Tilt } from "react-tilt";
 import { useNavigate } from 'react-router-dom';
+import { environment } from '../environments/environment';
+import Swal from 'sweetalert2'
+
+let baseUrl = `${environment.apiUrl}/api/user/register`;
 
 export default function Create() {
+
+    const accesToken = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+             "Authorization": `Bearer ${accesToken}`,
+        },
+   };
 
     const navigate = useNavigate();
     const [fullname, setFullname] = useState('');
@@ -14,15 +26,29 @@ export default function Create() {
     const [role, setRole] = useState('');
 
     const postData = () => {
-        axios.post(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/register`, {
+        axios.post(`${baseUrl}`, {
             fullname,
             role,
             email,
             password,
             termAgree
-        }).then(() => {
+        }, config)
+        .then(() => {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Utilisateur créé',
+                showConfirmButton: true,
+                timer: 1500
+              })
             navigate('/read')
         })
+        .catch(() =>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Utilisateur non créé!'
+          }))
     }
     return (
 

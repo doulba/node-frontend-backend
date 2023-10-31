@@ -3,9 +3,19 @@ import { Button, Checkbox, Form } from 'semantic-ui-react';
 import axios from 'axios';
 import { Tilt } from "react-tilt";
 import { useNavigate } from 'react-router-dom';
+import { environment } from '../environments/environment';
+import Swal from 'sweetalert2'
 
 export default function Update() {
 
+    let baseUrl = `${environment.apiUrl}/api/user`;
+    const accesToken = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+             "Authorization": `Bearer ${accesToken}`,
+        },
+   };
     const navigate = useNavigate();
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
@@ -14,14 +24,21 @@ export default function Update() {
     const [id, setID] = useState(null);
 
     const updateAPIData = () => {
-        axios.put(`https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/${id}`, {
+        axios.put(`${baseUrl}/${id}`, {
             fullname,
             email,
             role,
             termAgree
-        }).then(() => {
+        }, config)
+        .then(() => {
             navigate('/read')
         })
+        .catch(() =>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'mise à jour non effectuée!'
+          }))
     }
 
     useEffect(() => {

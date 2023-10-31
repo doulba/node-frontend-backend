@@ -7,11 +7,13 @@ import swal from 'sweetalert';
 import Swal from 'sweetalert2'
 import logo from '../logo.jpeg'
 import usePasswordToggle from "../hooks/usePasswordToggle"
+import { environment } from '../environments/environment';
 
+let baseUrl = `${environment.apiUrl}/api/user/login`;
 
 
 async function loginUser(credentials) {
-    return fetch('https://us-central1-gestiondaarait.cloudfunctions.net/app/api/user/login', {
+    return fetch(`${baseUrl}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -51,7 +53,8 @@ function LoginPage() {
                 title: 'Oops...',
                 text: 'Utilisateur non trouvé!',
                 footer: '<a href="/register">créer un compte?</a>'
-              })
+            })
+
         }
     }
     const [PasswordInputType, ToggleIcon] = usePasswordToggle();
@@ -66,7 +69,7 @@ function LoginPage() {
                                 { max: 50 }
                             } >
                             <div className="Tilt-inner login100-pic" data-tilt>
-                            <img src={logo}
+                                <img src={logo}
                                     alt="image" />
                             </div>
                         </Tilt>
@@ -76,14 +79,14 @@ function LoginPage() {
                                <h1> Se Connecter </h1>
                             </span>
                             <div className="wrap-input100 validate-input"
-                                 validate="Valid login is required: exabc.123" >
+                                validate="Valid login is required: exabc.123" >
                                 <input className="input100"
                                     type="text"
                                     id="email"
                                     name="email"
-                                    placeholder="Email" 
+                                    placeholder="Email"
                                     onChange={e => setEmail(e.target.value)}
-                                    />
+                                />
                                 <span className="focus-input100"></span>
                                 <span className="symbol-input100">
                                     <FaIcons.FaUser />
@@ -91,14 +94,14 @@ function LoginPage() {
                             </div>
 
                             <div className="wrap-input100 validate-input"
-                                 validate="Password is required" >
+                                validate="Password is required" >
                                 <input className="input100"
                                     type={PasswordInputType}
                                     name="password"
                                     placeholder="Password"
-                                    id="password" 
+                                    id="password"
                                     onChange={e => setPassword(e.target.value)}
-                                    />
+                                />
                                 < span className="focus-input100">
                                 </span>
                                 <span className="symbol-input100">
@@ -124,7 +127,7 @@ function LoginPage() {
                                     Validation
                                 </button>
                             </div>
-                            <div className="text-center p-t-12">    
+                            <div className="text-center p-t-12">
                                 <a className="txt2"
                                     href="/register" >
                                     Créer un compte ?
